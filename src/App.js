@@ -6,10 +6,9 @@ import { Auth, UserBar, AppLoading, Home } from "./Components";
 
 function App() {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     axios
       .get("https://freesound.org/apiv2/me/")
       .then(({ data }) => {

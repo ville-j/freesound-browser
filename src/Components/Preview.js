@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 import useSound from "use-sound";
 
@@ -21,30 +21,32 @@ const StyledPreview = styled.span`
     `}
 `;
 
-const Preview = ({ url }) => {
+const Play = ({ url }) => {
   const [play, exposedData] = useSound(url);
-
   useEffect(() => {
+    play();
     return function cleanup() {
       if (exposedData.isPlaying) {
         exposedData.stop();
       }
     };
   });
+  return null;
+};
+
+const Preview = ({ url }) => {
+  const [playing, setPlaying] = useState(false);
   return (
     <StyledPreview
-      isPlaying={exposedData.isPlaying}
+      isPlaying={playing}
       onClick={() => {
-        if (exposedData.isPlaying) {
-          exposedData.stop();
-        } else {
-          play();
-        }
+        setPlaying(!playing);
       }}
     >
       <span aria-label="Play sound" role="img">
         🎧
       </span>
+      {playing && <Play url={url} />}
     </StyledPreview>
   );
 };
