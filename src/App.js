@@ -1,24 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import axios from "axios";
+import "./App.css";
+import { Auth, UserBar, AppLoading, Home } from "./Components";
 
 function App() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("https://freesound.org/apiv2/me/")
+      .then(({ data }) => {
+        setUser(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {loading && <AppLoading />}
+      {!loading && (
+        <>
+          <UserBar user={user} />
+          <Router>
+            <Switch>
+              <Route path="/auth" component={Auth} />
+              <Route path="/" component={Home} />
+            </Switch>
+          </Router>
+        </>
+      )}
     </div>
   );
 }
