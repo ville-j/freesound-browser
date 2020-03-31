@@ -26,7 +26,7 @@ function App() {
       {!loading && (
         <>
           <UserBar user={user} />
-          <Router>
+          <Router basename="/sounds">
             <Switch>
               <Route path="/auth" component={Auth} />
               <Route path="/" component={Home} />

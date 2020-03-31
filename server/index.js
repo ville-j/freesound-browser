@@ -26,10 +26,10 @@ app.get("/auth", async (req, res) => {
       qs.stringify(authData)
     );
 
-    res.redirect(`http://localhost:3000/auth?${qs.stringify(data)}`);
+    res.redirect(`${process.env.BASE_URL}/auth?${qs.stringify(data)}`);
   } catch (err) {
     console.log(err);
-    res.redirect(`http://localhost:3000/auth?error=1`);
+    res.redirect(`${process.env.BASE_URL}/auth?error=1`);
   }
 });
 
