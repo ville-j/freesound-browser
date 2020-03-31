@@ -14,10 +14,29 @@ const StyledPreview = styled.span`
   text-align: center;
   cursor: pointer;
   font-size: 12px;
+  position: relative;
   ${props =>
     props.isPlaying &&
     css`
-      background: #b248de;
+      > div {
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #b248de;
+        animation: pulse 2s infinite;
+        @keyframes pulse {
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.2;
+          }
+        }
+      }
     `}
 `;
 
@@ -43,7 +62,8 @@ const Preview = ({ url }) => {
         setPlaying(!playing);
       }}
     >
-      <span aria-label="Play sound" role="img">
+      <div />
+      <span aria-label="Play sound" role="img" style={{ position: "relative" }}>
         🎧
       </span>
       {playing && <Play url={url} />}

@@ -1,4 +1,4 @@
-import Auth from "./auth";
+import Auth from "./Auth";
 import UserBar from "./UserBar";
 import AppLoading from "./AppLoading";
 import Home from "./Home";

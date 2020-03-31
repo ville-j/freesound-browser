@@ -1,6 +1,7 @@
 import qs from "query-string";
 import axios from "axios";
 import { save } from "../storage";
+
 const Auth = ({ location, history }) => {
   const { access_token, refresh_token } = qs.parse(location.search);
   save("access_token", access_token);

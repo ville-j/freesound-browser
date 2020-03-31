@@ -19,7 +19,9 @@ const UserBar = ({ user }) => (
     {user ? (
       `Logged in as ${user.username}`
     ) : (
-      <a href="https://freesound.org/apiv2/oauth2/authorize/?client_id=LpfbmcnelcvgGXVnYxOu&amp;response_type=code">
+      <a
+        href={`https://freesound.org/apiv2/oauth2/authorize/?client_id=${process.env.REACT_APP_CLIENT_ID}&response_type=code`}
+      >
         login
       </a>
     )}
