@@ -7,6 +7,15 @@ const qs = require("querystring");
 const app = express();
 const port = 4545;
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.get("/auth", async (req, res) => {
@@ -50,6 +59,75 @@ app.get("/refresh", async (req, res) => {
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
+  }
+});
+
+app.get("/search", async (req, res) => {
+  const { query, fields } = req.query;
+  try {
+    const { data } = await axios.get(
+      "https://freesound.org/apiv2/search/text/",
+      {
+        params: {
+          query,
+          fields
+        },
+        headers: {
+          Authorization: req.header("Authorization")
+        }
+      }
+    );
+
+    res.json(data);
+  } catch (err) {
+    try {
+      console.log("fallback");
+      const { data } = await axios.get(
+        "https://freesound.org/apiv2/search/text/",
+        {
+          params: {
+            query,
+            fields,
+            token: process.env.CLIENT_SECRET
+          }
+        }
+      );
+
+      res.json(data);
+    } catch {
+      res.sendStatus(500);
+    }
+  }
+});
+
+app.get("/sounds/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const { data } = await axios.get(
+      `https://freesound.org/apiv2/sounds/${id}/`,
+      {
+        headers: {
+          Authorization: req.header("Authorization")
+        }
+      }
+    );
+
+    res.json(data);
+  } catch (err) {
+    try {
+      console.log("fallback");
+      const { data } = await axios.get(
+        `https://freesound.org/apiv2/sounds/${id}/`,
+        {
+          params: {
+            token: process.env.CLIENT_SECRET
+          }
+        }
+      );
+      res.json(data);
+    } catch {
+      res.sendStatus(500);
+    }
   }
 });
 

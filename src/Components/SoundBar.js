@@ -103,9 +103,11 @@ const SoundBar = ({
 
   useEffect(() => {
     setSoundData(null);
-    axios.get(`https://freesound.org/apiv2/sounds/${id}/`).then(({ data }) => {
-      setSoundData(data);
-    });
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/sounds/${id}`)
+      .then(({ data }) => {
+        setSoundData(data);
+      });
   }, [id]);
   return (
     <StyledSoundBar>

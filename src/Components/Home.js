@@ -43,7 +43,7 @@ const Home = () => {
             t = setTimeout(async () => {
               try {
                 const { data } = await axios.get(
-                  "https://freesound.org/apiv2/search/text/",
+                  `${process.env.REACT_APP_API_URL}/search`,
                   {
                     params: {
                       query: val,
