@@ -13,7 +13,7 @@ const StyledAppLoading = styled.div`
   justify-content: center;
   text-transform: uppercase;
   font-weight: 800;
-  color: #8a1fb7;
+  color: #ca2497;
   font-size: 2em;
 `;
 

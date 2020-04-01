@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { SoundInfo } from "./";
+import { SoundInfo, DataLoading } from "./";
 
 const StyledSoundBar = styled.div`
   position: fixed;
@@ -17,7 +17,7 @@ const StyledSoundBar = styled.div`
 `;
 
 const Header = styled.div`
-  background: #8a1fb7;
+  background: #ca2497;
   height: 60px;
   color: #fff;
   display: flex;
@@ -102,12 +102,21 @@ const SoundBar = ({
   const [soundData, setSoundData] = useState(null);
 
   useEffect(() => {
+    const source = axios.CancelToken.source();
     setSoundData(null);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/sounds/${id}`)
+      .get(`${process.env.REACT_APP_API_URL}/sounds/${id}`, {
+        cancelToken: source.token
+      })
       .then(({ data }) => {
         setSoundData(data);
+      })
+      .catch(err => {
+        console.log(err);
       });
+    return () => {
+      source.cancel();
+    };
   }, [id]);
   return (
     <StyledSoundBar>
@@ -132,6 +141,7 @@ const SoundBar = ({
             </DataTable>
           </Pad>
         )}
+        {!soundData && <DataLoading text="Loading details" />}
       </Content>
     </StyledSoundBar>
   );

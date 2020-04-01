@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-import { SoundInfo } from "./";
+import { SoundInfo, DataLoading } from "./";
 
 const StyledHome = styled.div``;
 
@@ -28,10 +28,29 @@ const SearchResult = styled.div`
   border-bottom: 1px solid #d8d8d8;
 `;
 
+const CancelToken = axios.CancelToken;
 let t;
+let cancel;
+
+const search = val => {
+  if (cancel) {
+    cancel();
+  }
+  return axios.get(`${process.env.REACT_APP_API_URL}/search`, {
+    params: {
+      query: val,
+      fields: "name,previews,tags,id,images,duration"
+    },
+    cancelToken: new CancelToken(function executor(c) {
+      cancel = c;
+    })
+  });
+};
 
 const Home = () => {
   const [results, setResults] = useState([]);
+  const [query, setQuery] = useState("");
+
   return (
     <StyledHome>
       <SearchInput
@@ -39,35 +58,28 @@ const Home = () => {
         onChange={e => {
           clearTimeout(t);
           const val = e.target.value;
-          if (val) {
-            t = setTimeout(async () => {
-              try {
-                const { data } = await axios.get(
-                  `${process.env.REACT_APP_API_URL}/search`,
-                  {
-                    params: {
-                      query: val,
-                      fields: "name,previews,tags,id,images,duration"
-                    }
-                  }
-                );
-
+          t = setTimeout(() => {
+            setResults(null);
+            setQuery(val);
+            search(val)
+              .then(({ data }) => {
                 setResults(data.results);
-              } catch (err) {
-                console.log(err);
-              }
-            }, 500);
-          } else {
-            setResults([]);
-          }
+              })
+              .catch(ex => {
+                console.log(ex);
+                setResults([]);
+              });
+          }, 700);
         }}
       />
       <SearchResults>
-        {results.map(r => (
-          <SearchResult key={r.id}>
-            <SoundInfo data={r} link />
-          </SearchResult>
-        ))}
+        {results &&
+          results.map(r => (
+            <SearchResult key={r.id}>
+              <SoundInfo data={r} link />
+            </SearchResult>
+          ))}
+        {!results && <DataLoading text={`Searching for "${query}"`} />}
       </SearchResults>
     </StyledHome>
   );

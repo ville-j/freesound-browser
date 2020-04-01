@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledUserBar = styled.div`
-  border-bottom: 1px solid #8a1fb7;
+  border-bottom: 1px solid #d8d8d8;
   position: fixed;
   width: 100%;
   background: #fff;
   height: 60px;
   box-sizing: border-box;
-  color: #8a1fb7;
+  color: #ca2497;
   display: flex;
   align-items: center;
   padding: 0 15px;
@@ -16,7 +16,7 @@ const StyledUserBar = styled.div`
   z-index: 100;
 
   a {
-    color: #8a1fb7;
+    color: #ca2497;
     text-decoration: none;
   }
 `;
