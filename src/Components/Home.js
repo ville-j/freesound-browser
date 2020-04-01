@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 
-import { Preview } from "./";
+import { SoundInfo } from "./";
 
 const StyledHome = styled.div``;
 
@@ -26,25 +26,6 @@ const SearchResults = styled.div`
 const SearchResult = styled.div`
   padding: 15px;
   border-bottom: 1px solid #d8d8d8;
-`;
-
-const SampleName = styled.span`
-  font-weight: 600;
-`;
-
-const SampleDuration = styled.span`
-  display: inline-block;
-  font-size: 0.9em;
-  margin-right: 10px;
-  font-weight: 300;
-`;
-
-const Tag = styled.span`
-  display: inline-block;
-  font-size: 0.8em;
-  margin: 2px;
-  background: #f1f1f1;
-  padding: 2px 5px;
 `;
 
 let t;
@@ -84,31 +65,7 @@ const Home = () => {
       <SearchResults>
         {results.map(r => (
           <SearchResult key={r.id}>
-            <Preview url={r.previews["preview-lq-mp3"]} />
-            <SampleName>
-              <SampleDuration>
-                {Math.floor(r.duration / 60)}:
-                {Math.ceil(r.duration % 60)
-                  .toString()
-                  .padStart(2, "0")}
-              </SampleDuration>
-              {r.name}
-            </SampleName>
-            <img
-              alt="Sound waveform"
-              src={r.images.waveform_bw_m}
-              style={{
-                height: 100,
-                display: "block",
-                filter:
-                  "sepia(1) saturate(500%) contrast(300%) hue-rotate(330deg)"
-              }}
-            />
-            <div>
-              {r.tags.map((t, i) => (
-                <Tag key={i}>{t}</Tag>
-              ))}
-            </div>
+            <SoundInfo data={r} link />
           </SearchResult>
         ))}
       </SearchResults>

@@ -1,7 +1,8 @@
-import Auth from "./Auth";
 import UserBar from "./UserBar";
 import AppLoading from "./AppLoading";
 import Home from "./Home";
 import Preview from "./Preview";
+import SoundBar from "./SoundBar";
+import SoundInfo from "./SoundInfo";
 
-export { Auth, UserBar, AppLoading, Home, Preview };
+export { UserBar, AppLoading, Home, Preview, SoundBar, SoundInfo };

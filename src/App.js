@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 
-import { Auth, UserBar, AppLoading, Home } from "./Components";
+import { UserBar, AppLoading, Home, SoundBar } from "./Components";
 import "./App.css";
 
 const View = styled.div`
@@ -34,10 +34,8 @@ function App() {
           <UserBar user={user} />
           <View>
             <Router basename="/sounds">
-              <Switch>
-                <Route path="/auth" component={Auth} />
-                <Route path="/" component={Home} />
-              </Switch>
+              <Route path="/" component={Home} />
+              <Route path="/s/:id" component={SoundBar} />
             </Router>
           </View>
         </>

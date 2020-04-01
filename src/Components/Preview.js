@@ -62,19 +62,24 @@ const Preview = ({ url }) => {
     []
   );
 
+  const handleClick = () => {
+    if (sound.playing()) {
+      sound.pause();
+      setPlaying(false);
+    } else {
+      sound.play();
+      setPlaying(true);
+    }
+  };
+
   return (
     <StyledPreview
       role="button"
       tabIndex="0"
       isPlaying={playing}
-      onClick={() => {
-        if (sound.playing()) {
-          sound.pause();
-          setPlaying(false);
-        } else {
-          sound.play();
-          setPlaying(true);
-        }
+      onClick={handleClick}
+      onKeyPress={e => {
+        e.which === 13 && handleClick();
       }}
     >
       <div />
