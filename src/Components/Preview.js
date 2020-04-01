@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import styled, { css } from "styled-components";
-import useSound from "use-sound";
+import { Howl } from "howler";
 
 const StyledPreview = styled.span`
   display: inline-block;
@@ -40,33 +40,47 @@ const StyledPreview = styled.span`
     `}
 `;
 
-const Play = ({ url }) => {
-  const [play, exposedData] = useSound(url);
-  useEffect(() => {
-    play();
-    return function cleanup() {
-      if (exposedData.isPlaying) {
-        exposedData.stop();
-      }
-    };
-  });
-  return null;
-};
-
 const Preview = ({ url }) => {
   const [playing, setPlaying] = useState(false);
+
+  const sound = useMemo(() => {
+    return new Howl({
+      src: [url],
+      html5: true,
+      preload: false,
+      onend: () => {
+        setPlaying(false);
+      }
+    });
+  }, [url]);
+
+  useEffect(
+    () => () => {
+      sound.stop();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
   return (
     <StyledPreview
+      role="button"
+      tabIndex="0"
       isPlaying={playing}
       onClick={() => {
-        setPlaying(!playing);
+        if (sound.playing()) {
+          sound.pause();
+          setPlaying(false);
+        } else {
+          sound.play();
+          setPlaying(true);
+        }
       }}
     >
       <div />
       <span aria-label="Play sound" role="img" style={{ position: "relative" }}>
         🎧
       </span>
-      {playing && <Play url={url} />}
     </StyledPreview>
   );
 };

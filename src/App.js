@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
-import "./App.css";
-import { Auth, UserBar, AppLoading, Home } from "./Components";
+import styled from "styled-components";
 
+import { Auth, UserBar, AppLoading, Home } from "./Components";
+import "./App.css";
+
+const View = styled.div`
+  height: 100%;
+  padding-top: 60px;
+  box-sizing: border-box;
+`;
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,12 +32,14 @@ function App() {
       {!loading && (
         <>
           <UserBar user={user} />
-          <Router basename="/sounds">
-            <Switch>
-              <Route path="/auth" component={Auth} />
-              <Route path="/" component={Home} />
-            </Switch>
-          </Router>
+          <View>
+            <Router basename="/sounds">
+              <Switch>
+                <Route path="/auth" component={Auth} />
+                <Route path="/" component={Home} />
+              </Switch>
+            </Router>
+          </View>
         </>
       )}
     </div>
