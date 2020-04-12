@@ -25,7 +25,7 @@ const StyledPreview = styled.span`
         position: absolute;
         top: 0;
         left: 0;
-        background: #b248de;
+        background: #1aceac;
         animation: pulse 2s infinite;
         @keyframes pulse {
           0%,

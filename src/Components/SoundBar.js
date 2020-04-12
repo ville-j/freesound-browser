@@ -17,7 +17,7 @@ const StyledSoundBar = styled.div`
 `;
 
 const Header = styled.div`
-  background: #ca2497;
+  background: #1aceac;
   height: 60px;
   color: #fff;
   display: flex;
@@ -121,7 +121,7 @@ const SoundBar = ({
   return (
     <StyledSoundBar>
       <Header>
-        <Title>{soundData ? soundData.name : `Loading sound id ${id}`}</Title>
+        <Title>{soundData ? soundData.name : id}</Title>
         <Close>
           <Link to="/">×</Link>
         </Close>
@@ -141,7 +141,7 @@ const SoundBar = ({
             </DataTable>
           </Pad>
         )}
-        {!soundData && <DataLoading text="Loading details" />}
+        {!soundData && <DataLoading text={`Loading sound ${id}`} />}
       </Content>
     </StyledSoundBar>
   );

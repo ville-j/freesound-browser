@@ -36,6 +36,7 @@ const search = val => {
   if (cancel) {
     cancel();
   }
+  if (!val) return Promise.reject();
   return axios.get(`${process.env.REACT_APP_API_URL}/search`, {
     params: {
       query: val,
@@ -65,8 +66,7 @@ const Home = () => {
               .then(({ data }) => {
                 setResults(data.results);
               })
-              .catch(ex => {
-                console.log(ex);
+              .catch(() => {
                 setResults([]);
               });
           }, 700);

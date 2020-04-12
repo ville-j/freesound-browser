@@ -57,44 +57,42 @@ app.get("/refresh", async (req, res) => {
     );
     res.json(data);
   } catch (err) {
-    console.log(err);
-    res.sendStatus(500);
+    if (err && err.response) {
+      res.sendStatus(err.response.status);
+    } else {
+      res.sendStatus(500);
+    }
   }
 });
 
 app.get("/search", async (req, res) => {
   const { query, fields } = req.query;
+  const authHeader = req.header("Authorization");
+
   try {
     const { data } = await axios.get(
       "https://freesound.org/apiv2/search/text/",
       {
         params: {
           query,
-          fields
+          fields,
+          ...(!authHeader ? { token: process.env.CLIENT_SECRET } : {})
         },
-        headers: {
-          Authorization: req.header("Authorization")
-        }
+        ...(authHeader
+          ? {
+              headers: {
+                Authorization: authHeader
+              }
+            }
+          : {})
       }
     );
 
     res.json(data);
   } catch (err) {
-    try {
-      console.log("fallback");
-      const { data } = await axios.get(
-        "https://freesound.org/apiv2/search/text/",
-        {
-          params: {
-            query,
-            fields,
-            token: process.env.CLIENT_SECRET
-          }
-        }
-      );
-
-      res.json(data);
-    } catch {
+    if (err && err.response) {
+      res.sendStatus(err.response.status);
+    } else {
       res.sendStatus(500);
     }
   }
@@ -102,30 +100,30 @@ app.get("/search", async (req, res) => {
 
 app.get("/sounds/:id", async (req, res) => {
   const { id } = req.params;
+  const authHeader = req.header("Authorization");
+
   try {
     const { data } = await axios.get(
       `https://freesound.org/apiv2/sounds/${id}/`,
       {
-        headers: {
-          Authorization: req.header("Authorization")
-        }
+        params: {
+          ...(!authHeader ? { token: process.env.CLIENT_SECRET } : {})
+        },
+        ...(authHeader
+          ? {
+              headers: {
+                Authorization: authHeader
+              }
+            }
+          : {})
       }
     );
 
     res.json(data);
   } catch (err) {
-    try {
-      console.log("fallback");
-      const { data } = await axios.get(
-        `https://freesound.org/apiv2/sounds/${id}/`,
-        {
-          params: {
-            token: process.env.CLIENT_SECRET
-          }
-        }
-      );
-      res.json(data);
-    } catch {
+    if (err && err.response) {
+      res.sendStatus(err.response.status);
+    } else {
       res.sendStatus(500);
     }
   }

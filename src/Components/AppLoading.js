@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import DataLoading from "./DataLoading";
+
 const StyledAppLoading = styled.div`
   position: fixed;
   top: 0;
@@ -11,12 +13,12 @@ const StyledAppLoading = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: #ca2497;
-  font-size: 2em;
 `;
 
-const AppLoading = () => <StyledAppLoading>Loading</StyledAppLoading>;
+const AppLoading = () => (
+  <StyledAppLoading>
+    <DataLoading text="Connecting to freesound.org" />
+  </StyledAppLoading>
+);
 
 export default AppLoading;

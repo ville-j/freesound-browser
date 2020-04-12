@@ -27,6 +27,16 @@ const Tag = styled.span`
   padding: 2px 5px;
 `;
 
+const ImageContainer = styled.div`
+  height: 100px;
+  position: relative;
+  display: inline-block;
+  > img {
+    height: 100%;
+    filter: sepia(1) contrast(1.2) saturate(50) hue-rotate(280deg);
+  }
+`;
+
 const SoundInfo = ({ data, link }) => (
   <>
     <Preview url={data.previews["preview-lq-mp3"]} />
@@ -39,16 +49,11 @@ const SoundInfo = ({ data, link }) => (
     <SampleName>
       {link ? <Link to={`/s/${data.id}`}>{data.name}</Link> : data.name}
     </SampleName>
-    <img
-      alt="Sound waveform"
-      src={data.images.waveform_bw_m}
-      style={{
-        height: 50,
-        display: "block",
-        filter: "sepia(1) saturate(500%) contrast(300%) hue-rotate(330deg)",
-        margin: "15px 0"
-      }}
-    />
+    <div>
+      <ImageContainer>
+        <img alt="Sound waveform" src={data.images.waveform_bw_m} />
+      </ImageContainer>
+    </div>
     <div>
       {data.tags.map((t, i) => (
         <Tag key={i}>{t}</Tag>

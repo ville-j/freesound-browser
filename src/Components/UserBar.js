@@ -8,7 +8,7 @@ const StyledUserBar = styled.div`
   background: #fff;
   height: 60px;
   box-sizing: border-box;
-  color: #ca2497;
+  color: #1aceac;
   display: flex;
   align-items: center;
   padding: 0 15px;
@@ -16,7 +16,7 @@ const StyledUserBar = styled.div`
   z-index: 100;
 
   a {
-    color: #ca2497;
+    color: #1aceac;
     text-decoration: none;
   }
 `;

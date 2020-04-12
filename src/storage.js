@@ -8,4 +8,6 @@ const save = (key, val) => {
 
 const load = key => localStorage.getItem(key);
 
-export { save, load };
+const clear = key => localStorage.removeItem(key);
+
+export { save, load, clear };

@@ -17,7 +17,7 @@ const StyledDataLoading = styled.div`
   }
 
   .spinner > div {
-    background-color: #ca2497;
+    background-color: #1aceac;
     height: 100%;
     width: 6px;
     display: inline-block;
